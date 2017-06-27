@@ -31,14 +31,15 @@ echo "1w:  $oneweekago"
 echo "1d:  $onedayago"
 echo "8h:  $eighthoursago"
 
+resturl="http://$openhabserver:$openhabport/rest/persistence/items/$itemname?serviceId=$serviceid"
 
 # get values and write to different files
-curl -X GET --header "Accept: application/json" "http://$openhabserver:$openhabport/rest/persistence/items/$itemname?starttime=${tenyearsago}&endtime=${oneyearago}"  > ${itemname}_10y.xml
-curl -X GET --header "Accept: application/json" "http://$openhabserver:$openhabport/rest/persistence/items/$itemname?starttime=${oneyearago}&endtime=${onemonthago}"  > ${itemname}_1y.xml
-curl -X GET --header "Accept: application/json" "http://$openhabserver:$openhabport/rest/persistence/items/$itemname?starttime=${onemonthago}&endtime=${oneweekago}"  > ${itemname}_1m.xml
-curl -X GET --header "Accept: application/json" "http://$openhabserver:$openhabport/rest/persistence/items/$itemname?starttime=${oneweekago}&endtime=${onwdayago}"    > ${itemname}_1w.xml
-curl -X GET --header "Accept: application/json" "http://$openhabserver:$openhabport/rest/persistence/items/$itemname?starttime=${onedayago}&endtime=${eighthoursago}" > ${itemname}_1d.xml
-curl -X GET --header "Accept: application/json" "http://$openhabserver:$openhabport/rest/persistence/items/$itemname?starttime=${eighthoursago}"                      > ${itemname}_8h.xml
+curl -X GET --header "Accept: application/json" "$resturl&starttime=${tenyearsago}&endtime=${oneyearago}"  > ${itemname}_10y.xml
+curl -X GET --header "Accept: application/json" "$resturl&starttime=${oneyearago}&endtime=${onemonthago}"  > ${itemname}_1y.xml
+curl -X GET --header "Accept: application/json" "$resturl&starttime=${onemonthago}&endtime=${oneweekago}"  > ${itemname}_1m.xml
+curl -X GET --header "Accept: application/json" "$resturl&starttime=${oneweekago}&endtime=${onwdayago}"    > ${itemname}_1w.xml
+curl -X GET --header "Accept: application/json" "$resturl&starttime=${onedayago}&endtime=${eighthoursago}" > ${itemname}_1d.xml
+curl -X GET --header "Accept: application/json" "$resturl&starttime=${eighthoursago}"                      > ${itemname}_8h.xml
 
 # combine files
 cat ${itemname}_10y.xml ${itemname}_1y.xml ${itemname}_1m.xml ${itemname}_1w.xml ${itemname}_1d.xml ${itemname}_8h.xml > ${itemname}.xml

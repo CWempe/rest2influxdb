@@ -3,6 +3,7 @@
 # openHAB server
 openhabserver="openhab-server"
 openhabport="8080"
+serviceid="rrd4j"
 
 # InfluxDB server
 influxserver="influx-server"
