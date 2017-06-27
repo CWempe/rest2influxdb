@@ -13,6 +13,8 @@ fi
 
 source ./config.cfg
 
+importsize=100
+
 # convert historical times to unix timestamps,
 tenyearsago=`date +"%Y-%m-%dT%H:%M:%S%:z" --date="10 years ago"`
 oneyearago=`date +"%Y-%m-%dT%H:%M:%S%:z" --date="-12 months 28 days ago"`
@@ -22,14 +24,16 @@ onedayago=`date +"%Y-%m-%dT%H:%M:%S%:z" --date="-23 hours 59 minutes ago"`
 eighthoursago=`date +"%Y-%m-%dT%H:%M:%S%:z" --date="-7 hours 59 minutes ago"`
 
 
-# print out timestamps
-echo "item:$itemname"
-echo "10y: $tenyearsago"
-echo "1y:  $oneyearago"
-echo "1m:  $onemonthago"
-echo "1w:  $oneweekago"
-echo "1d:  $onedayago"
-echo "8h:  $eighthoursago"
+# print timestamps
+echo ""
+echo "### timestamps"
+echo "item: $itemname"
+echo "10y:  $tenyearsago"
+echo "1y:   $oneyearago"
+echo "1m:   $onemonthago"
+echo "1w:   $oneweekago"
+echo "1d:   $onedayago"
+echo "8h:   $eighthoursago"
 
 resturl="http://$openhabserver:$openhabport/rest/persistence/items/$itemname?serviceId=$serviceid"
 
@@ -48,11 +52,30 @@ cat ${itemname}_10y.xml ${itemname}_1y.xml ${itemname}_1m.xml ${itemname}_1w.xml
 cat ${itemname}.xml | grep -e "time" -e "state" | paste - - | tr -d ',"' | awk -v item="$itemname" '{print item " value=" $4 " " $2 "000000"}' > ${itemname}.txt
 
 values=`wc -l ${itemname}.txt | cut -d " " -f 1`
-echo "found values: $values"
+echo ""
+echo "### found values: $values"
 
 
+# split file in smaller parts to make it easier for influxdb
 
-# print import command
-echo "curl -i -XPOST -u $influxuser:$influxpw 'http://$influxserver:$influxport/write?db=$influxdatbase' --data-binary @${itemname}.txt"
-# execute import command
-curl -i -XPOST -u $influxuser:$influxpw "http://$influxserver:$influxport/write?db=$influxdatbase" --data-binary @${itemname}.txt
+linestart=1
+linestop=$importsize
+
+until [ $linestart -gt $values ]; do
+#  echo "$linestart, $linestop"
+  linestart=$((linestart+importsize))
+  linestop=+$((linestop+importsize))
+  cat ${itemname}.txt | sed -n "${linestart},${linestop}p" > ${itemname}_${linestart}.txt
+
+  # print import command
+#  echo "curl -i -XPOST -u $influxuser:$influxpw 'http://$influxserver:$influxport/write?db=$influxdatbase' --data-binary @${itemname}_${linestart}.txt"
+  # execute import command
+  curl -i -XPOST -u $influxuser:$influxpw "http://$influxserver:$influxport/write?db=$influxdatbase" --data-binary @${itemname}_${linestart}.txt
+
+done
+
+echo ""
+echo "### delete temporary files"
+rm ${itemname}*
+
+exit 0
