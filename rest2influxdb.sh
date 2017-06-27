@@ -46,7 +46,7 @@ cat ${itemname}_10y.xml ${itemname}_1y.xml ${itemname}_1m.xml ${itemname}_1w.xml
 # convert data to line protocol file
 cat ${itemname}.xml | grep -e "time" -e "state" | paste - - | tr -d ',"' | awk -v item="$itemname" '{print item " value=" $4 " " $2 "000000"}' > ${itemname}.txt
 
-values=`wc -l ${itemname}.json | cut -d " " -f 1`
+values=`wc -l ${itemname}.txt | cut -d " " -f 1`
 echo "found values: $values"
 
 
