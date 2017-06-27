@@ -16,7 +16,7 @@ Done.
 
 # (un)known Issues
 
-RRD compresses data, so the further you go into the past the bigger gaps you get between to data points.
+RRD compresses data, so the further you go into the past the bigger gaps you get between two data points.
 
 see: https://github.com/openhab/openhab1-addons/wiki/rrd4j-persistence
 
