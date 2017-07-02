@@ -83,6 +83,6 @@ done
 
 echo ""
 echo "### delete temporary files"
-#rm ${itemname}*
+rm ${itemname}*
 
 exit 0
