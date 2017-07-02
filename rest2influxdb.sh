@@ -54,6 +54,7 @@ cat ${itemname}.xml \
      | paste - - \
      | tr -d ',"' \
      | awk -v item="$itemname" '{print item " value=" $4 " " $2 "000000"}' \
+     | sed 's/value=ON/value=1/g;s/value=OFF/value=0/g' \
      > ${itemname}.txt
 
 values=`wc -l ${itemname}.txt | cut -d " " -f 1`

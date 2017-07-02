@@ -18,7 +18,6 @@ Done.
 
 * **NOT COMPATIBLE WITH openHAB 2.1, yet!!!!!**
 * The timestamps cannot be calculated correctly on macOS
-* Switch items (ON and OFF states) cannot be imported
 * RRD compresses data, so the further you go into the past the bigger gaps you get between two data points.  
 see: https://github.com/openhab/openhab1-addons/wiki/rrd4j-persistence
 * I am not sure if the defined timestamps are correct to read as much data as possible.
