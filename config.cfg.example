@@ -11,3 +11,5 @@ influxport="8086"
 influxdatbase="openhab_db"
 influxuser="openhab"
 influxpw="AnotherSuperbPassword456-"
+importsize=100
+sleeptime=5

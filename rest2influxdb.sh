@@ -13,8 +13,6 @@ fi
 
 source ./config.cfg
 
-importsize=100
-
 # convert historical times to unix timestamps,
 tenyearsago=`date +"%Y-%m-%dT%H:%M:%S%:z" --date="10 years ago"`
 oneyearago=`date +"%Y-%m-%dT%H:%M:%S%:z" --date="-12 months 28 days ago"`
@@ -70,7 +68,7 @@ linestop=$importsize
 until [ $linestart -gt $values ]; do
 #  echo "$linestart, $linestop"
   linestart=$((linestart+importsize))
-  linestop=+$((linestop+importsize))
+  linestop=$((linestop+importsize))
   cat ${itemname}.txt | sed -n "${linestart},${linestop}p" > ${itemname}_${linestart}.txt
 
   # print import command
@@ -78,10 +76,12 @@ until [ $linestart -gt $values ]; do
   # execute import command
   curl -i -XPOST -u $influxuser:$influxpw "http://$influxserver:$influxport/write?db=$influxdatbase" --data-binary @${itemname}_${linestart}.txt
 
+  echo "Sleep for $sleeptime seconds to let InfluxDB process the data..."
+  sleep $sleeptime
 done
 
 echo ""
 echo "### delete temporary files"
-rm ${itemname}*
+#rm ${itemname}*
 
 exit 0
