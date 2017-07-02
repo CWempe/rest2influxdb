@@ -69,7 +69,8 @@ linestart=1
 linestop=$importsize
 
 until [ $linestart -gt $values ]; do
-#  echo "$linestart, $linestop"
+  echo ""
+  echo "### Line from $linestart to $linestop"
   linestart=$((linestart+importsize))
   linestop=$((linestop+importsize))
   cat ${itemname}.txt | sed -n "${linestart},${linestop}p" > ${itemname}_${linestart}.txt
