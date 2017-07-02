@@ -49,7 +49,12 @@ curl -X GET --header "Accept: application/json" "$resturl&starttime=${eighthours
 cat ${itemname}_10y.xml ${itemname}_1y.xml ${itemname}_1m.xml ${itemname}_1w.xml ${itemname}_1d.xml ${itemname}_8h.xml > ${itemname}.xml
 
 # convert data to line protocol file
-cat ${itemname}.xml | grep -e "time" -e "state" | paste - - | tr -d ',"' | awk -v item="$itemname" '{print item " value=" $4 " " $2 "000000"}' > ${itemname}.txt
+cat ${itemname}.xml \
+     | grep -e "time" -e "state" \
+     | paste - - \
+     | tr -d ',"' \
+     | awk -v item="$itemname" '{print item " value=" $4 " " $2 "000000"}' \
+     > ${itemname}.txt
 
 values=`wc -l ${itemname}.txt | cut -d " " -f 1`
 echo ""
