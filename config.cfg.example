@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # openHAB server
-openhabserver="openhab-server"
+openhabserver="alarmpi.local"
 openhabport="8080"
 serviceid="rrd4j"
 

@@ -39,7 +39,7 @@ resturl="http://$openhabserver:$openhabport/rest/persistence/items/$itemname?ser
 curl -X GET --header "Accept: application/json" "$resturl&starttime=${tenyearsago}&endtime=${oneyearago}"  > ${itemname}_10y.xml
 curl -X GET --header "Accept: application/json" "$resturl&starttime=${oneyearago}&endtime=${onemonthago}"  > ${itemname}_1y.xml
 curl -X GET --header "Accept: application/json" "$resturl&starttime=${onemonthago}&endtime=${oneweekago}"  > ${itemname}_1m.xml
-curl -X GET --header "Accept: application/json" "$resturl&starttime=${oneweekago}&endtime=${onwdayago}"    > ${itemname}_1w.xml
+curl -X GET --header "Accept: application/json" "$resturl&starttime=${oneweekago}&endtime=${onedayago}"    > ${itemname}_1w.xml
 curl -X GET --header "Accept: application/json" "$resturl&starttime=${onedayago}&endtime=${eighthoursago}" > ${itemname}_1d.xml
 curl -X GET --header "Accept: application/json" "$resturl&starttime=${eighthoursago}"                      > ${itemname}_8h.xml
 
@@ -75,7 +75,7 @@ until [ $linestart -gt $values ]; do
   # print import command
 #  echo "curl -i -XPOST -u $influxuser:$influxpw 'http://$influxserver:$influxport/write?db=$influxdatbase' --data-binary @${itemname}_${linestart}.txt"
   # execute import command
-  curl -i -XPOST -u $influxuser:$influxpw "http://$influxserver:$influxport/write?db=$influxdatbase" --data-binary @${itemname}_${linestart}.txt
+#  curl -i -XPOST -u $influxuser:$influxpw "http://$influxserver:$influxport/write?db=$influxdatbase" --data-binary @${itemname}_${linestart}.txt
 
   echo "Sleep for $sleeptime seconds to let InfluxDB process the data..."
   sleep $sleeptime
