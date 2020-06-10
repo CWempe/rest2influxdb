@@ -35,7 +35,7 @@ echo "8h:   $eighthoursago"
 
 resturl="http://$openhabserver:$openhabport/rest/persistence/items/$itemname?serviceId=$serviceid&api_key=$itemname"
 
-echo "resturl:   $resturl
+echo "resturl:   $resturl"
 
 # get values and write to different files
 # curl -X GET --header "Accept: application/json" "$resturl&starttime=${tenyearsago}&endtime=${oneyearago}"  > ${itemname}_10y.xml
