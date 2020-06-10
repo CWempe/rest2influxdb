@@ -14,12 +14,12 @@ fi
 source ./config.cfg
 
 # convert historical times to unix timestamps,
-tenyearsago=`date +"%Y-%m-%dT%H:%M:%S%" --date="10 years ago"`
-oneyearago=`date +"%Y-%m-%dT%H:%M:%S%" --date="-12 months 28 days ago"`
-onemonthago=`date +"%Y-%m-%dT%H:%M:%S%" --date="29 days ago"`
-oneweekago=`date +"%Y-%m-%dT%H:%M:%S%" --date="-6 days -23 hours 59 minutes ago"`
-onedayago=`date +"%Y-%m-%dT%H:%M:%S%" --date="-23 hours 59 minutes ago"`
-eighthoursago=`date +"%Y-%m-%dT%H:%M:%S%" --date="-7 hours 59 minutes ago"`
+tenyearsago=`date +"%Y-%m-%dT%H:%M:%S" --date="10 years ago"`
+oneyearago=`date +"%Y-%m-%dT%H:%M:%S" --date="-12 months 28 days ago"`
+onemonthago=`date +"%Y-%m-%dT%H:%M:%S" --date="29 days ago"`
+oneweekago=`date +"%Y-%m-%dT%H:%M:%S" --date="-6 days -23 hours 59 minutes ago"`
+onedayago=`date +"%Y-%m-%dT%H:%M:%S" --date="-23 hours 59 minutes ago"`
+eighthoursago=`date +"%Y-%m-%dT%H:%M:%S" --date="-7 hours 59 minutes ago"`
 
 
 # print timestamps
