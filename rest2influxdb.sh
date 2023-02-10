@@ -89,7 +89,7 @@ do
   fi
   
   echo "Sleep for $sleeptime seconds to let InfluxDB process the data..."
-  sleep $sleeptime
+  sleep ${sleeptime:-0}
 done
 
 echo ""
