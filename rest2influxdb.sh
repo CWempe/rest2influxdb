@@ -60,7 +60,6 @@ cat ${itemname}.xml \
      | tr -d ',:[{"' \
      | sed 's/time/ /g;s/state/ /g' \
      | awk -v item="$itemname" '{print item " value=" $2 " " $1 "000000"}' \
-     | sed 's/value=ON/value=1/g;s/value=OFF/value=0/g' \
 > ${itemname}.txt
 
 if [ $influxdb_version = "1" ]; then
