@@ -4,6 +4,8 @@
 
 
 itemname="$1"
+# add option to override config file with arg2, defaults to config.cfg
+configfile=${2:-config.cfg}
 
 
 if [ -z $itemname ]
