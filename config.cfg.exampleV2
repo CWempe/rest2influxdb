@@ -8,7 +8,6 @@ serviceid="rrd4j"
 # InfluxDB server v2
 influxdb_version=2
 influxserver="https://eu-central-1-1.aws.cloud1.influxdata.com"
-influxport="443"
 influx_org="Dev"
 influx_bucket="openhab"
 influx_token="AnotherSuperbPassword456-"

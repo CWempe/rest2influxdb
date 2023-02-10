@@ -14,7 +14,7 @@ then
   exit 0
 fi
 
-source ./config.cfg
+source ./$configfile
 
 # convert historical times to unix timestamps,
 tenyearsago=`date +"%Y-%m-%dT%H:%M:%S" --date="10 years ago"`
@@ -64,8 +64,8 @@ cat ${itemname}.xml \
 > ${itemname}.txt
 
 if [ $influxdb_version = "1" ]; then
-   sed -i 's/value=ON/value=1/g;s/value=OFF/value=0/g' ${itemname}.txt
-elif [ $influxdb_version = "2" ];
+  sed -i 's/value=ON/value=1/g;s/value=OFF/value=0/g' ${itemname}.txt
+elif [ $influxdb_version = "2" ]; then
   sed -i 's/value=ON/value=1i/g;s/value=OFF/value=0i/g' ${itemname}.txt
 else
   echo "Invalid influxdb version! Set influxdb_version to either 1 or 2"
@@ -84,7 +84,7 @@ for i in ${itemname}-*
 do
   if [ $influxdb_version = "1" ]; then
     curl -i -XPOST -u $influxuser:$influxpw "http://$influxserver:$influxport/write?db=$influxdatbase" --data-binary @$i
-  elif [ $influxdb_version = "2" ];
+  elif [ $influxdb_version = "2" ]; then
     curl -i -XPOST --header "Authorization: Token $influx_token" "$influxserver/api/v2/write?org=$influx_org&bucket=$influx_bucket" --data-binary @$i
   fi
   
