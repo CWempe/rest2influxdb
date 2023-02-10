@@ -5,6 +5,7 @@
 
 itemname="$1"
 
+
 if [ -z $itemname ]
 then
   echo "Please define Item!"
@@ -60,6 +61,15 @@ cat ${itemname}.xml \
      | sed 's/value=ON/value=1/g;s/value=OFF/value=0/g' \
 > ${itemname}.txt
 
+if [ $influxdb_version = "1" ]; then
+   sed -i 's/value=ON/value=1/g;s/value=OFF/value=0/g' ${itemname}.txt
+elif [ $influxdb_version = "2" ];
+  sed -i 's/value=ON/value=1i/g;s/value=OFF/value=0i/g' ${itemname}.txt
+else
+  echo "Invalid influxdb version! Set influxdb_version to either 1 or 2"
+  exit 1
+fi
+
 values=`wc -l ${itemname}.txt | cut -d " " -f 1`
 echo ""
 echo "### found values: $values"
@@ -70,7 +80,12 @@ split -l $importsize ${itemname}.txt "${itemname}-"
 
 for i in ${itemname}-*
 do
-  curl -i -XPOST -u $influxuser:$influxpw "http://$influxserver:$influxport/write?db=$influxdatbase" --data-binary @$i
+  if [ $influxdb_version = "1" ]; then
+    curl -i -XPOST -u $influxuser:$influxpw "http://$influxserver:$influxport/write?db=$influxdatbase" --data-binary @$i
+  elif [ $influxdb_version = "2" ];
+    curl -i -XPOST --header "Authorization: Token $influx_token" "$influxserver/api/v2/write?org=$influx_org&bucket=$influx_bucket" --data-binary @$i
+  fi
+  
   echo "Sleep for $sleeptime seconds to let InfluxDB process the data..."
   sleep $sleeptime
 done
