@@ -5,7 +5,8 @@ openhabserver="alarmpi.local"
 openhabport="8080"
 serviceid="rrd4j"
 
-# InfluxDB server
+# InfluxDB server v1
+influxdb_version=1
 influxserver="influx-server"
 influxport="8086"
 influxdatbase="openhab_db"
